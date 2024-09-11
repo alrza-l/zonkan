@@ -1,4 +1,9 @@
-local auto_command_group = vim.api.nvim_create_augroup("ZONKAN", { clear = true })
+local auto_command_group = vim.api.nvim_create_augroup("ZonkanInitial", { clear = true })
+
+local function append_text(buffer, text)
+	local start_line = vim.api.nvim_buf_line_count(buffer)
+	vim.api.nvim_buf_set_lines(buffer, start_line, start_line, false, { text })
+end
 
 local function draw_window()
 	local buffer = vim.api.nvim_create_buf(false, true)
@@ -24,17 +29,11 @@ local function draw_window()
 	win = vim.api.nvim_open_win(buffer, true, window_opts)
 	vim.api.nvim_buf_set_option(buffer, "bufhidden", "wipe")
 	vim.api.nvim_buf_set_option(buffer, "filetype", "whid")
+	append_text(buffer, "I Finally created a window")
+	append_text(buffer, "And am able to write on it")
 end
 
-local function read_db()
-	local buffer = vim.api.nvim_create_buf(false, true)
-	vim.api.nvim_buf_set_name(buffer, "zonkan-buffer")
-	vim.api.nvim_set_option_value("filetype", "lua", { buf = buffer })
-	vim.api.nvim_win_set_buf(0, buffer)
-	local content = { "0: Alireza", "1: Sina" }
-	vim.api.nvim_buf_set_lines(buffer, 0, -1, false, content)
-	return buffer
-end
+local function read_db() end
 
 local function main()
 	read_db()
