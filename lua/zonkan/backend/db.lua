@@ -20,10 +20,9 @@ local function get_data_file()
 	return vim.fn.json_decode(data)
 end
 
-local function write_data_file(obj)
-	--TODO: don't read and write the whole data file every time
-	local data = get_data_file()
+local data = get_data_file()
 
+local function write_data_file(obj)
 	for key, value in pairs(obj) do
 		data[key] = value
 	end
@@ -32,8 +31,6 @@ local function write_data_file(obj)
 	local lines = vim.split(data, "\n")
 	vim.fn.writefile(lines, data_file_path)
 end
-
-local data = get_data_file()
 
 function DataBase.refresh_data()
 	data = get_data_file()
@@ -53,6 +50,10 @@ function DataBase.health_check()
 end
 
 function DataBase.add_project(name, directory, tags)
+	if data[name] then
+		return error("Project Already Exists")
+	end
+
 	local project_data = {
 		[name] = {
 			tags = tags,
@@ -61,6 +62,7 @@ function DataBase.add_project(name, directory, tags)
 	}
 
 	write_data_file(project_data)
+	DataBase.refresh_data()
 end
 
 function DataBase.get_project(name)
