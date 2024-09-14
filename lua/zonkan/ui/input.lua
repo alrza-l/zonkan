@@ -10,7 +10,7 @@ function TextInput:set_value(value)
 	end
 	vim.defer_fn(function()
 		vim.api.nvim_buf_set_lines(self.bufnr, 0, 1, false, { "> " .. value })
-		vim.api.nvim_win_set_cursor(self.winid, { 1, #"> " + #value })
+		vim.api.nvim_win_set_cursor(self.winid, { 1, self._.prompt._length + #value })
 		self._last_value = value
 	end, 1)
 end
