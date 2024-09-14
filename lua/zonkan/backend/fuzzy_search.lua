@@ -23,8 +23,8 @@ local function levenshtein(s, t)
 end
 
 local function append_results(results, distance, key, cquery_type, max_distance)
-	if distance<=max_distance then
-		table.insert(results, {key={distance=distance, query_type=cquery_type}
+	if distance <= max_distance then
+		table.insert(results, { key = { distance = distance, query_type = cquery_type } })
 	end
 end
 function FuzzySearch(tbl, search_terms, max_distance)
@@ -59,4 +59,3 @@ function FuzzySearch(tbl, search_terms, max_distance)
 
 	return results
 end
-
